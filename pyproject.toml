@@ -1,0 +1,29 @@
+[project]
+name = "finaudit-8b"
+version = "1.0.0"
+description = "Production-grade Financial SEC 10-K Risk & Metric Extraction Engine"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "FinAudit-8B Contributors" }]
+keywords = ["llm", "finance", "sec", "extraction", "vllm", "fastapi", "unsloth"]
+
+[project.urls]
+Repository = "https://github.com/YOUR_USERNAME/FinAudit-8B"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-v --tb=short"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+select = ["E", "W", "F", "I"]
+ignore = ["E501"]
+exclude = [".venv", "checkpoints", "data"]
+
+[tool.pyright]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+reportMissingModuleSource = "none"

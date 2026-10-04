@@ -1,0 +1,84 @@
+name: CI — FinAudit-8B Tests
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Pytest — Schema & API Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Create virtual environment
+        run: uv venv .venv
+
+      - name: Install CPU-only test dependencies
+        run: |
+          source .venv/bin/activate
+          # Install only what's needed for schema/API tests (no GPU deps)
+          uv pip install fastapi uvicorn pydantic sse-starlette \
+                        httpx pytest pytest-asyncio python-dotenv rich typer
+
+      - name: Run pytest suite
+        run: |
+          source .venv/bin/activate
+          pytest tests/ -v --tb=short --ignore=tests/test_gpu.py
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results
+          path: pytest-results.xml
+          if-no-files-found: ignore
+
+  lint:
+    name: Ruff Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Run ruff linter
+        run: ruff check app/ src/ benchmarks/ tests/ --select E,W,F --ignore E501
+
+  typecheck:
+    name: Pyright Type Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pyright and stubs
+        run: pip install pyright fastapi pydantic
+
+      - name: Run pyright on app package
+        run: pyright app/ --pythonversion 3.11

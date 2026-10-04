@@ -1,0 +1,63 @@
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+*.whl
+
+# ─── Virtual environments ─────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ─── Model checkpoints & weights (large binaries) ────────────────────────────
+checkpoints/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.gguf
+*.ggml
+
+# ─── Data (may contain PII / large files) ────────────────────────────────────
+data/train.jsonl
+data/val.jsonl
+data/test.jsonl
+
+# ─── Environment variables ────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ─── IDE ─────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# ─── Testing ─────────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+pytest-results.xml
+*.log
+
+# ─── Notebooks ───────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ─── Docker ──────────────────────────────────────────────────────────────────
+.dockerignore
+
+# ─── uv / pip ────────────────────────────────────────────────────────────────
+uv.lock
+pip-wheel-metadata/
